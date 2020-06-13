@@ -108,6 +108,9 @@ read_fsa <- function(File, Lad_Chan = 4, Sig_Chan = 1:3, Range = c(100:500)) {
   
   scans <- data.frame(standard = lad.dat)
   tmp <- set.ladder(lad.dat, ladder, SNR, ladder.check)
+  if (is.character(tmp)) {
+    return("Too many peaks in ladder")
+  } else {
   scans$bp <- tmp$bp
   lad_mat <- as.data.frame(cbind(bp = scans$bp[!is.na(scans$bp)], time = which(!is.na(scans$bp))))
   pred_mod = lm(bp ~ time, data = lad_mat)
@@ -138,4 +141,5 @@ read_fsa <- function(File, Lad_Chan = 4, Sig_Chan = 1:3, Range = c(100:500)) {
 
   comment(EPG_Dat) = paste(basename(File))
   return(EPG_Dat)
+  }
 }
