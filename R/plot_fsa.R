@@ -26,11 +26,11 @@ plot_fsa <- function(fsa, dye, title = TRUE, x_limits){
   if (length(dye) == 1){
     Plot = fsa %>% filter(Channel == Legend[which(Legend$Dye == dye),2]) %>%
     ggplot(aes(x = bp, y = Peak)) + geom_line(size = 0.75, 
-    colour = Legend[which(Legend$Dye == dye),3]) + theme_bw() + ylim(c(-20, max(subset(fsa, Channel == Legend[which(Legend$Dye == dye),2])$Peak))) + scale_x_continuous(limits = c(x_limits[1], x_limits[2]), breaks = seq(x_limits[1],x_limits[2],1)) + ylab("Signal\n(Relative Fluorescence)") + theme(axis.text.x = element_text(angle = 90))
+    colour = Legend[which(Legend$Dye == dye),3]) + theme_bw() + ylim(c(-20, max(subset(fsa, Channel == Legend[which(Legend$Dye == dye),2])$Peak))) + scale_x_continuous(limits = c(x_limits[1], x_limits[2]), breaks = seq(x_limits[1],x_limits[2],2)) + ylab("Signal\n(Relative Fluorescence)") + theme(axis.text.x = element_text(angle = 90))
   } else if (length(dye) > 1){
     Drop = Legend$Channel[c(which(!(Legend$Dye %in% dye)))]
     Plot = fsa %>% filter(!(Channel %in% Drop)) %>% 
-    ggplot(aes(x = bp, y = Peak, colour = Channel)) + geom_line(size = 0.75) + theme_bw() + ylim(c(-20, max(fsa %>% filter(!(Channel %in% Drop)) %>% dplyr::select(Peak)))) + scale_x_continuous(limits = c(x_limits[1], x_limits[2]), breaks = seq(x_limits[1],x_limits[2],1)) + ylab("Signal\n(Relative Fluorescence)") + theme(axis.text.x = element_text(angle = 90)) + 
+    ggplot(aes(x = bp, y = Peak, colour = Channel)) + geom_line(size = 0.75) + theme_bw() + ylim(c(-20, max(fsa %>% filter(!(Channel %in% Drop)) %>% dplyr::select(Peak)))) + scale_x_continuous(limits = c(x_limits[1], x_limits[2]), breaks = seq(x_limits[1],x_limits[2],2)) + ylab("Signal\n(Relative Fluorescence)") + theme(axis.text.x = element_text(angle = 90)) + 
     scale_colour_manual(values = c(Legend$Colour[c(which(Legend$Channel %in% unique(as.data.frame(fsa %>% filter(!(Channel %in% Drop)))$Channel)))]))  
     }
 
