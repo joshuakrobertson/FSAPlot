@@ -57,8 +57,12 @@ read_fsa <- function(File, Lad_Chan = 4, Sig_Chan = 1:3, Range = c(100:500)) {
           summary(lm(ladder ~ stats::poly(Index[-i], 2)))$r.squared
         }))]
       } else {
-        toTry <- combn(length(Index), length(Index) - length(ladder))
-        
+        if (length(Index) - length(ladder) >= 10){
+            return(paste("To many ladder peaks"))
+        } else { 
+          toTry <- combn(length(Index), length(Index) - length(ladder))
+        }
+                
         if(ncol(toTry) > 4000){
           toTry <- toTry[, sample(ncol(toTry), 4000)]
         }
